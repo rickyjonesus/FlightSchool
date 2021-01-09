@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"net/http"
+
 	//"net/http"
 
 	_ "github.com/lib/pq"
@@ -14,15 +16,15 @@ func main() {
 	fmt.Println("Program Starting")
 	//log.AddHook(logruseq.NewSeqHook("https://atlas-seq.azurewebsites.net"))
 
-	//http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/Aircraft/Add", func(w http.ResponseWriter, r *http.Request) {
 
-	ac := Aircraft.Aircraft{0, "N843AL"}
+		ac := Aircraft.Aircraft{Id: 0, TailNumber: "N843AL", AircraftTypeId: 1}
 
-	Aircraft.AddAircraft(ac)
+		Aircraft.AddAircraft(ac)
 
-	//	fmt.Fprintf(w, "Hello, you've requested: %s\n", r.URL.Path)
-	//})
+		//	fmt.Fprintf(w, "Hello, you've requested: %s\n", r.URL.Path)
+	})
 
-	//http.ListenAndServe(":80", nil)
+	http.ListenAndServe(":80", nil)
 
 }

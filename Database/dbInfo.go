@@ -3,7 +3,7 @@ package Database
 import "fmt"
 
 const (
-	host     = "localhost"
+	host     = "192.168.1.111"
 	port     = 5432
 	user     = "postgres"
 	password = "postgres"

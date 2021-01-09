@@ -2,6 +2,7 @@ package Aircraft
 
 import (
 	"database/sql"
+	"fmt"
 
 	"github.com/rickyjonesus/FlightSchool/Database"
 )
@@ -19,7 +20,11 @@ func AddAircraft(aircraftToAdd Aircraft) {
 		panic(err)
 	}
 
-	sqlStatement := "INSERT INTO \"Aircraft\" (\"Id\",\"TailNumber\") VALUES (5, 'N3941FL')"
+	sqlStatement := fmt.Sprintf("INSERT INTO \"Aircraft\" (\"TailNumber\",\"AircraftTypeId\") VALUES ('%v', %v)",
+		aircraftToAdd.TailNumber,
+		aircraftToAdd.AircraftTypeId)
+
+	fmt.Println(sqlStatement)
 
 	_, err = db.Exec(sqlStatement)
 	if err != nil {
