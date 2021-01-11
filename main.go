@@ -4,11 +4,10 @@ import (
 	"fmt"
 	"net/http"
 
-	//"net/http"
+	"github.com/rickyjonesus/FlightSchool/aircraft"
 
 	_ "github.com/lib/pq"
-	//	log "github.com/sirupsen/logrus"
-	"github.com/rickyjonesus/FlightSchool/Aircraft"
+	//	"github.com/micro/go-micro/v2"
 )
 
 func main() {
@@ -16,14 +15,19 @@ func main() {
 	fmt.Println("Program Starting")
 	//log.AddHook(logruseq.NewSeqHook("https://atlas-seq.azurewebsites.net"))
 
-	http.HandleFunc("/Aircraft/Add", func(w http.ResponseWriter, r *http.Request) {
+	// create a new service
+	//service := micro.NewService(
+	//micro.Name("helloworld"),
+	//)
 
-		ac := Aircraft.Aircraft{Id: 0, TailNumber: "N843AL", AircraftTypeId: 1}
+	// initialise flags
+	//service.Init()
 
-		Aircraft.AddAircraft(ac)
+	//service.Run()
 
-		//	fmt.Fprintf(w, "Hello, you've requested: %s\n", r.URL.Path)
-	})
+	http.HandleFunc("/Aircraft/Add", aircraft.Add)
+
+	http.HandleFunc("/Aircraft", aircraft.Get)
 
 	http.ListenAndServe(":80", nil)
 

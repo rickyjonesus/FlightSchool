@@ -1,5 +1,6 @@
-package Aircraft
+package aircraft
 
+//
 type Aircraft struct {
 	Id             int
 	TailNumber     string

@@ -1,34 +1,65 @@
-package Aircraft
+package aircraft
 
 import (
-	"database/sql"
 	"fmt"
+	"os"
 
+	"github.com/jackc/pgx"
 	"github.com/rickyjonesus/FlightSchool/Database"
 )
 
+//AddAircraft ... Adds an aircraft to the database
 func AddAircraft(aircraftToAdd Aircraft) {
+	// psqlInfo := Database.GetConnectionInfo()
 
-	psqlInfo := Database.GetConnectionInfo()
+	// conn, err := pgx.Connect(context.Background(), psqlInfo.host)
+	// if err ! nil {
+	/// 	fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
+	// 	os.Exit(1)
+	// }
+	// defer conn.Close(context.Background() )
 
-	db, err := sql.Open("postgres", psqlInfo)
+	// err = conn.(context.Background(),addAircraftSQL).can(&name, &weight)
+	// if err = nil {
+	// 		fmt.Fprintf(os.Stderr, "Queryow failed: %v\n", err)
+	// 	os.Exit(1)
+
+	// sqlStatement := fmt.Sprintf(adAircraftSQL,
+	// 	aircraftToAdd.TailNumber,
+	// 	aircraftToAdd.AircraftTypId)
+
+	// 	fmt.Println(sqlStatement)
+
+	// _, err = db.ExecsqlStatement)
+
+	// i err != nil {
+	// panic(err)
+
+}
+
+//
+func GetAircraft(tailNumbr string) Aircraft {
+	psqlInfo := Database.GetConnectionObject()
+
+	conn, err := pgx.Connect(psqlInfo)
+
 	if err != nil {
-		panic(err)
+		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
+		os.Exit(1)
 	}
-	err = db.Ping()
+
+	defer conn.Close()
+
+	var retAircraft Aircraft
+
+	err = conn.QueryRow(getAllAircraftSQL).Scan(&retAircraft.Id, &retAircraft.TailNumber, &retAircraft.AircraftTypeId)
+
 	if err != nil {
-		panic(err)
+		fmt.Fprintf(os.Stderr, "QueryRow failed: %v\n", err)
+		os.Exit(1)
 	}
 
-	sqlStatement := fmt.Sprintf("INSERT INTO \"Aircraft\" (\"TailNumber\",\"AircraftTypeId\") VALUES ('%v', %v)",
-		aircraftToAdd.TailNumber,
-		aircraftToAdd.AircraftTypeId)
+	fmt.Println(retAircraft.Id, retAircraft.TailNumber)
 
-	fmt.Println(sqlStatement)
-
-	_, err = db.Exec(sqlStatement)
-	if err != nil {
-		panic(err)
-	}
-
+	return retAircraft
 }

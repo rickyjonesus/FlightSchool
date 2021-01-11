@@ -1,6 +1,10 @@
 package Database
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/jackc/pgx"
+)
 
 const (
 	host     = "192.168.1.111"
@@ -9,6 +13,19 @@ const (
 	password = "postgres"
 	dbname   = "FlightSchool"
 )
+
+func GetConnectionObject() pgx.ConnConfig {
+	var ret pgx.ConnConfig
+
+	ret.Host = host
+	ret.Port = port
+	ret.User = user
+	ret.Password = password
+	ret.Database = dbname
+
+	return ret
+
+}
 
 //
 //
