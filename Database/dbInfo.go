@@ -2,6 +2,7 @@ package Database
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/jackc/pgx"
 )
@@ -36,4 +37,20 @@ func GetConnectionInfo() string {
 		host, port, user, password, dbname)
 
 	return psqlInfo
+}
+
+//
+func GetConnection() *pgx.Conn {
+	psqlInfo := GetConnectionObject()
+
+	conn, err := pgx.Connect(psqlInfo)
+
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
+		os.Exit(1)
+	}
+
+
+
+	return conn
 }

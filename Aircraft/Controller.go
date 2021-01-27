@@ -17,11 +17,31 @@ func Add(w http.ResponseWriter, r *http.Request) {
 
 func Get(w http.ResponseWriter, r *http.Request) {
 
-	fmt.Println("Get aircraft")
-	ac := GetAircraft("")
+	tailNumber := r.URL.Query().Get("tailNumber")
+
+	fmt.Println("Get aircraft: " + tailNumber)
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
-	json.NewEncoder(w).Encode(ac)
+	
+	if(tailNumber == ""){
+		fmt.Println("Get all aircraft")	
+		ac := GetAircraft()
+		json.NewEncoder(w).Encode(ac)
+	} else {
+		ac := GetAircraftByTail(tailNumber)
+		json.NewEncoder(w).Encode(ac)
+	}
+}
+
+//
+//
+func Register() {
+
+	http.HandleFunc("/Aircraft/Update", Add)
+
+	http.HandleFunc("/Aircraft/Add", Add)
+
+	http.HandleFunc("/Aircraft", Get)
 
 }

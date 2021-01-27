@@ -4,9 +4,10 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/rickyjonesus/FlightSchool/aircraft"
+	"log"
 
 	_ "github.com/lib/pq"
+	"github.com/rickyjonesus/FlightSchool/aircraft"
 	//	"github.com/micro/go-micro/v2"
 )
 
@@ -25,10 +26,13 @@ func main() {
 
 	//service.Run()
 
-	http.HandleFunc("/Aircraft/Add", aircraft.Add)
+	aircraft.Register()
+	//http.HandleFunc("/Aircraft/Update", aircraft.Add)
 
-	http.HandleFunc("/Aircraft", aircraft.Get)
+	//http.HandleFunc("/Aircraft/Add", aircraft.Add)
 
-	http.ListenAndServe(":80", nil)
+	//http.HandleFunc("/Aircraft", aircraft.Get)
+
+	log.Fatal(http.ListenAndServe(":81", nil))
 
 }

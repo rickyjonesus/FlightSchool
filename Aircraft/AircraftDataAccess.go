@@ -3,13 +3,12 @@ package aircraft
 import (
 	"fmt"
 	"os"
-
-	"github.com/jackc/pgx"
+	"github.com/randallmlough/pgxscan"
 	"github.com/rickyjonesus/FlightSchool/Database"
 )
 
 //AddAircraft ... Adds an aircraft to the database
-func AddAircraft(aircraftToAdd Aircraft) {
+func AddAircraft(aircraftToAdd Aircraft) int {
 	// psqlInfo := Database.GetConnectionInfo()
 
 	// conn, err := pgx.Connect(context.Background(), psqlInfo.host)
@@ -35,31 +34,44 @@ func AddAircraft(aircraftToAdd Aircraft) {
 	// i err != nil {
 	// panic(err)
 
+	return 1
 }
 
 //
-func GetAircraft(tailNumbr string) Aircraft {
-	psqlInfo := Database.GetConnectionObject()
-
-	conn, err := pgx.Connect(psqlInfo)
-
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
-		os.Exit(1)
-	}
-
-	defer conn.Close()
+func GetAircraftByTail(tailNumber string) Aircraft {
 
 	var retAircraft Aircraft
 
-	err = conn.QueryRow(getAllAircraftSQL).Scan(&retAircraft.Id, &retAircraft.TailNumber, &retAircraft.AircraftTypeId)
+	conn := Database.GetConnection()
+	defer conn.Close()
 
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "QueryRow failed: %v\n", err)
-		os.Exit(1)
-	}
+	row := conn.QueryRow(getAircraftByTailSQL, tailNumber)
+	//.Scan(&retAircraft.Id, &retAircraft.TailNumber, &retAircraft.AircraftTypeId)
+	pgxscan.NewScanner(row).Scan(retAircraft)
+	
 
 	fmt.Println(retAircraft.Id, retAircraft.TailNumber)
 
 	return retAircraft
+}
+
+func GetAircraft() *[]Aircraft {
+
+	conn := Database.GetConnection()
+	defer conn.Close()
+
+	rows, err := conn.Query(getAllAircraftSQL)
+
+	var retAircraft []Aircraft
+
+
+	if err := pgxscan.NewScanner(rows).Scan(&retAircraft); err != nil {
+	
+	}
+	if err != nil {
+		fmt.Fprint(os.Stderr, "QueryRow failed: %v\n", err)
+		os.Exit(1)
+	}
+
+	return &retAircraft
 }
