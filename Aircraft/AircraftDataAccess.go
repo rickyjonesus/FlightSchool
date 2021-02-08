@@ -3,8 +3,9 @@ package aircraft
 import (
 	"fmt"
 	"os"
+
 	"github.com/randallmlough/pgxscan"
-	"github.com/rickyjonesus/FlightSchool/Database"
+	database "github.com/rickyjonesus/FlightSchool/Database"
 )
 
 //AddAircraft ... Adds an aircraft to the database
@@ -42,7 +43,7 @@ func GetAircraftByTail(tailNumber string) Aircraft {
 
 	var retAircraft Aircraft
 
-	conn := Database.GetConnection()
+	conn := database.GetConnection()
 	defer conn.Close()
 
 	row := conn.QueryRow(getAircraftByTailSQL, tailNumber)
@@ -57,7 +58,7 @@ func GetAircraftByTail(tailNumber string) Aircraft {
 
 func GetAircraft() *[]Aircraft {
 
-	conn := Database.GetConnection()
+	conn := database.GetConnection()
 	defer conn.Close()
 
 	rows, err := conn.Query(getAllAircraftSQL)
