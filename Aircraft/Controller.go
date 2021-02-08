@@ -19,14 +19,12 @@ func Get(w http.ResponseWriter, r *http.Request) {
 
 	tailNumber := r.URL.Query().Get("tailNumber")
 
-	fmt.Println("Get aircraft: " + tailNumber)
-
-	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Content-Type", "applicatio/json")
 	w.WriteHeader(http.StatusCreated)
 	
 	if(tailNumber == ""){
 		fmt.Println("Get all aircraft")	
-		ac := GetAircraft()
+		ac  := GetAircraft()
 		json.NewEncoder(w).Encode(ac)
 	} else {
 		ac := GetAircraftByTail(tailNumber)
@@ -34,8 +32,8 @@ func Get(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-//
-//
+
+
 func Register() {
 
 	http.HandleFunc("/Aircraft/Update", Add)

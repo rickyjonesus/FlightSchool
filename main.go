@@ -8,6 +8,7 @@ import (
 
 	_ "github.com/lib/pq"
 	"github.com/rickyjonesus/FlightSchool/aircraft"
+	"github.com/rickyjonesus/FlightSchool/leg"
 	//	"github.com/micro/go-micro/v2"
 )
 
@@ -27,6 +28,9 @@ func main() {
 	//service.Run()
 
 	aircraft.Register()
+
+	leg.Register()
+
 	//http.HandleFunc("/Aircraft/Update", aircraft.Add)
 
 	//http.HandleFunc("/Aircraft/Add", aircraft.Add)
