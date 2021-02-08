@@ -70,7 +70,7 @@ func GetAircraft() *[]Aircraft {
 	
 	}
 	if err != nil {
-		fmt.Fprint(os.Stderr, "QueryRow failed: %v\n", err)
+	
 		os.Exit(1)
 	}
 
