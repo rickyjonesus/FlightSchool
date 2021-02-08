@@ -5,7 +5,7 @@ import (
 	"os"
 
 	"github.com/randallmlough/pgxscan"
-	database "github.com/rickyjonesus/FlightSchool/Database"
+	database "github.com/rickyjonesus/FlightSchool/database"
 )
 
 //AddAircraft ... Adds an aircraft to the database
